@@ -4,10 +4,12 @@ from flask import current_app
 from werkzeug.security import check_password_hash
 
 
-def generate_token():
+def generate_token(user_id, user_type):
     exp = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
     token = jwt.encode({
-        'exp': exp
+        'exp': exp,
+        'sub': str(user_id),
+        'type': user_type,
     }, current_app.config['JWT_SECRET_KEY'], algorithm='HS256')
     return token if isinstance(token, str) else token.decode('utf-8')
 

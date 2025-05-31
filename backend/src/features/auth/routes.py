@@ -20,6 +20,6 @@ def login():
         return make_response({'error': 'User not found'}, 404)
 
     if verify_user_password(hashed_password=user.hashed_password, password=password):
-        token = generate_token()
+        token = generate_token(user_id=user.id, user_type=user.type)
         return jsonify({'token': token})
     return make_response({'error': 'Invalid credentials'}, 401, {'WWW-Authenticate': 'Basic realm="Login required"'})
