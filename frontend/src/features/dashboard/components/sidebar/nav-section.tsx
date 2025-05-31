@@ -7,6 +7,7 @@ import {
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { LucideIcon } from 'lucide-react'
+import Link from 'next/link'
 
 export function NavSection({
   label,
@@ -24,12 +25,14 @@ export function NavSection({
       <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map(item => (
-          <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton tooltip={item.title}>
-              {item.icon && <item.icon />}
-              <span>{item.title}</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          <Link href={item.url} key={item.title} passHref>
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={item.title} className="cursor-pointer">
+                {item.icon && <item.icon />}
+                <span>{item.title}</span>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          </Link>
         ))}
       </SidebarMenu>
     </SidebarGroup>

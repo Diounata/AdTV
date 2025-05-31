@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 import { NavSection } from '@/features/dashboard/components/sidebar/nav-section'
 import { NavUser } from '@/features/dashboard/components/sidebar/nav-user'
-import { HelpCircleIcon, HomeIcon, Monitor, NewspaperIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
+import { HelpCircleIcon, HomeIcon, MapIcon, MonitorIcon, NewspaperIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
 
@@ -22,7 +22,7 @@ const data = {
   navMain: [
     {
       title: 'Início',
-      url: '#',
+      url: '/dashboard',
       icon: HomeIcon,
     },
     {
@@ -38,7 +38,12 @@ const data = {
     {
       title: 'Telas',
       url: '#',
-      icon: Monitor,
+      icon: MonitorIcon,
+    },
+    {
+      title: 'Seções',
+      url: '#',
+      icon: MapIcon,
     },
     {
       title: 'Sobre o site',
@@ -49,7 +54,7 @@ const data = {
   navAdmin: [
     {
       title: 'Usuários',
-      url: '#',
+      url: '/dashboard/usuarios',
       icon: UsersIcon,
     },
   ],
@@ -61,7 +66,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu className="flex flex-col items-center">
           <SidebarMenuItem>
-            <Image src="/images/ifms-text.png" alt="IFMS" width={150} height={150} />
+            <Image src="/images/logo-text.png" alt="AdTV" width={150} height={150} />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

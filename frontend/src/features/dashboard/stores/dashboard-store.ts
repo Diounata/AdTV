@@ -9,6 +9,6 @@ type Action = {
 }
 
 export const useDashboard = create<State & Action>(set => ({
-  currentSection: 'Carregando...',
+  currentSection: '...',
   updateSection: section => set(state => ({ ...state, currentSection: section })),
 }))

@@ -1,0 +1,29 @@
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDg2NjUyMTV9.8WuiNA6KW3qdOOVlZWWiX_HW5qcLt6hDRONPbPEvzwU
+
+###
+
+GET http://127.0.0.1:4000/users
+Authorization: {{accessToken}}
+
+###
+
+POST http://127.0.0.1:4000/users
+Authorization: {{accessToken}}
+Content-Type: application/json
+
+{
+  "name": "aiwdoauiwjdijawdijoawd",
+  "email": "test@email.com",
+  "password": "123456"
+}
+
+
+###
+
+POST http://127.0.0.1:4000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@test.com",
+  "password": "testpassword"
+}
