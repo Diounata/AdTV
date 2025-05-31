@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 import { NavSection } from '@/features/dashboard/components/sidebar/nav-section'
 import { NavUser } from '@/features/dashboard/components/sidebar/nav-user'
-import { HelpCircleIcon, HomeIcon, MapIcon, MonitorIcon, NewspaperIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
+import { HelpCircleIcon, HomeIcon, ImageIcon, MapIcon, MonitorIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
 
@@ -28,7 +28,7 @@ const data = {
     {
       title: 'Anúncios',
       url: '#',
-      icon: NewspaperIcon,
+      icon: ImageIcon,
     },
     {
       title: 'Anúncios ativos',
