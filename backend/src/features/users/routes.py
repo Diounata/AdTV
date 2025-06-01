@@ -31,7 +31,7 @@ def create_user():
     isEmailBeingUsed = User.query.filter_by(email=email).first() is not None
 
     if isEmailBeingUsed:
-        return jsonify({'error': 'Email already in use'}), 400
+        return jsonify({'error': 'Email already in use'}), 409
 
     user = User(
         name=name,
