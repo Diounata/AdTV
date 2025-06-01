@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request
 from features.auth.utils import require_authentication
 from models.sector import Sector
 from extensions import db
+from flask import g
 
 sectors_bp = Blueprint('sectors', __name__, url_prefix='/sectors')
 
@@ -15,8 +16,9 @@ def create_sector():
 
     name = data.get('name')
     slug = data.get('slug')
+    created_by = g.token_payload['sub']
 
-    sector = Sector(name=name, slug=slug)
+    sector = Sector(name=name, slug=slug, created_by=created_by)
     db.session.add(sector)
     db.session.commit()
 
