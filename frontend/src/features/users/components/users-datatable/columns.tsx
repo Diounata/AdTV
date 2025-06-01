@@ -3,7 +3,6 @@ import { Badge } from '@/components/ui/badge'
 import { User } from '@/features/users/types/user'
 import { ColumnDef } from '@tanstack/react-table'
 import { formatDistanceToNow } from 'date-fns'
-import { UserActionsDropdown } from './actions-dropdown'
 
 export const userDatatableColumns: ColumnDef<User>[] = [
   {
@@ -38,11 +37,5 @@ export const userDatatableColumns: ColumnDef<User>[] = [
     header: 'Atualizado em',
     cell: ({ row }) =>
       row.original.updatedAt ? formatDistanceToNow(new Date(row.original.updatedAt), { addSuffix: true }) : 'Nunca',
-  },
-  {
-    accessorKey: 'actions',
-    enableHiding: false,
-    header: '',
-    cell: ({ row }) => <UserActionsDropdown user={row.original} />,
   },
 ]
