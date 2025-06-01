@@ -1,6 +1,6 @@
 'use client'
 
-import { LogOutIcon, MoreVerticalIcon, UserCog } from 'lucide-react'
+import { LogOutIcon, MoreVerticalIcon, UserCog, UserLock } from 'lucide-react'
 
 import { Avatar } from '@/components/ui/avatar'
 import {
@@ -65,9 +65,16 @@ export function NavUser({
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserCog />
-                Atualizar
+                Editar perfil
+              </DropdownMenuItem>
+
+              <DropdownMenuItem>
+                <UserLock />
+                Alterar senha
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
+            <DropdownMenuSeparator />
 
             <DropdownMenuItem>
               <LogOutIcon />
