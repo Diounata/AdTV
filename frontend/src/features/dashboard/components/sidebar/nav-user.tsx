@@ -26,6 +26,7 @@ export function NavUser({
   }
 }) {
   const [, setIsEditingUser] = useQueryState('editar-usuario', parseAsBoolean.withDefault(false))
+  const [, setIsEditingUserCredentials] = useQueryState('editar-credenciais', parseAsBoolean.withDefault(false))
   const { isMobile } = useSidebar()
 
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
@@ -78,7 +79,12 @@ export function NavUser({
                 Editar perfil
               </DropdownMenuItem>
 
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setIsDropdownOpen(false)
+                  setIsEditingUserCredentials(true)
+                }}
+              >
                 <UserLock />
                 Alterar senha
               </DropdownMenuItem>
