@@ -1,6 +1,7 @@
 'use client'
 
 import { LogOutIcon, MoreVerticalIcon, UserCog, UserLock } from 'lucide-react'
+import { useState } from 'react'
 
 import { Avatar } from '@/components/ui/avatar'
 import {
@@ -13,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
+import { parseAsBoolean, useQueryState } from 'nuqs'
 
 export function NavUser({
   user,
@@ -23,12 +25,15 @@ export function NavUser({
     avatar: string
   }
 }) {
+  const [, setIsEditingUser] = useQueryState('editar-usuario', parseAsBoolean.withDefault(false))
   const { isMobile } = useSidebar()
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
+        <DropdownMenu open={isDropdownOpen} onOpenChange={setIsDropdownOpen}>
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton
               size="lg"
@@ -63,7 +68,12 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <DropdownMenuItem>
+              <DropdownMenuItem
+                onSelect={() => {
+                  setIsDropdownOpen(false)
+                  setIsEditingUser(true)
+                }}
+              >
                 <UserCog />
                 Editar perfil
               </DropdownMenuItem>

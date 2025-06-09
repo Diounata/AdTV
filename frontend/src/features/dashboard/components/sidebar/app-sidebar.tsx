@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/sidebar'
 import { NavSection } from '@/features/dashboard/components/sidebar/nav-section'
 import { NavUser } from '@/features/dashboard/components/sidebar/nav-user'
+import { EditUserForm } from '@/features/users/components/edit-user-form'
 import { HelpCircleIcon, HomeIcon, ImageIcon, MapIcon, MonitorIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
@@ -78,6 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
 
       <SidebarFooter>
         <NavUser user={data.user} />
+        <EditUserForm />
       </SidebarFooter>
     </Sidebar>
   )

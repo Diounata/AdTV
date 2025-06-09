@@ -70,10 +70,6 @@ function FormComponent({ form, onSubmit, type }: Props) {
           <Input label="Nome" name="name" />
           <Input label="E-mail" name="email" />
 
-          <If condition={type === 'edit'}>
-            <Input label="Senha" name="password" inputProps={{ type: 'password' }} />
-          </If>
-
           <If condition={type === 'create'}>
             <UserTypeSelect />
           </If>
