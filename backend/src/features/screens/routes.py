@@ -43,3 +43,22 @@ def create_screen():
         'success': 'Screen created successfully',
         'screen_id': screen.id
     }), 201
+    
+@screens_bp.route('/', methods=['GET'])
+@require_authentication
+def list_screen():
+    screens = Screen.query.all()
+    result = [
+        {
+            "id": screen.id,
+            "name": screen.name,
+            "slug": screen.slug,
+            "sector_id": screen.sector_id,
+            "created_at": screen.created_at,
+            "created_by": screen.created_by,
+            "updated_at": screen.updated_at,
+            "updated_by": screen.updated_by
+        }
+        for screen in screens
+    ]
+    return jsonify({"screens": result}), 200
