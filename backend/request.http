@@ -1,0 +1,32 @@
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDkzNDE2MTYsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.UFmHG_2odagJgsmIEqo5wJ87IFDYHmTz7226OOHSaTw
+
+###
+
+GET http://127.0.0.1:4000/users
+Authorization: {{accessToken}}
+
+###
+
+
+POST http://127.0.0.1:4000/users
+Authorization: {{accessToken}}
+Content-Type: application/json
+
+{
+    "name":"Vanderson",
+    "email": "Wanderson@exemplo.com",
+    "type": "DEFAULT",
+    "password": "Vanderson123"
+}
+
+###
+
+
+POST http://127.0.0.1:4000/auth/login
+Authorization: {{accessToken}}
+Content-Type: application/json
+
+{
+    "email": "gabriel.freitas8@estudante.ifms.edu.br",
+    "password": "gabriel123"
+}
