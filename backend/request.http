@@ -1,4 +1,4 @@
-@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDkzNDE2MTYsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.UFmHG_2odagJgsmIEqo5wJ87IFDYHmTz7226OOHSaTw
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk1Mjc4MjYsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.xVKjri0sNZwDTV28kMaIVrf8jmQdIIcHT7gsru4kQaY
 
 ###
 
@@ -13,10 +13,10 @@ Authorization: {{accessToken}}
 Content-Type: application/json
 
 {
-    "name":"Vanderson",
-    "email": "Wanderson@exemplo.com",
-    "type": "DEFAULT",
-    "password": "Vanderson123"
+    "name":"Teste",
+    "email": "teste@gmail.com",
+    "type": "NADA",
+    "password": "1234"
 }
 
 ###

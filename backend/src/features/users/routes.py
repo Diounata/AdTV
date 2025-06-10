@@ -28,6 +28,10 @@ def create_user():
     email = data.get('email')
     type = data.get('type')
     password = data.get('password')
+    
+    valid_types = ['ADMIN', 'DEFAULT']
+    if type not in valid_types:
+    return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
 
     isEmailBeingUsed = User.query.filter_by(email=email).first() is not None
 
