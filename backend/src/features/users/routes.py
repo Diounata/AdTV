@@ -20,13 +20,18 @@ def get_users():
 def create_user():
     data = request.get_json()
 
-    if not data or not data.get('name') or not data.get('email') or not data.get('type') or not data.get('password'):
+    required_fields = ['name', 'email', 'type', 'password']
+    if not data or any(not data.get(field) for field in required_fields):
         return jsonify({'error': 'Missing required fields'}), 400
 
     name = data.get('name')
     email = data.get('email')
     type = data.get('type')
     password = data.get('password')
+    
+    valid_types = ['ADMIN', 'DEFAULT']
+    if type not in valid_types:
+    return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
 
     isEmailBeingUsed = User.query.filter_by(email=email).first() is not None
 
