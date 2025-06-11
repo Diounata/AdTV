@@ -14,22 +14,24 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar'
+import { useRouter } from 'next/navigation'
 import { parseAsBoolean, useQueryState } from 'nuqs'
+import { toast } from 'sonner'
 
-export function NavUser({
-  user,
-}: {
+interface Props {
   user: {
     name: string
     email: string
     avatar: string
   }
-}) {
+}
+
+export function NavUser({ user }: Props) {
   const [, setIsEditingUser] = useQueryState('editar-usuario', parseAsBoolean.withDefault(false))
   const [, setIsEditingUserCredentials] = useQueryState('editar-credenciais', parseAsBoolean.withDefault(false))
-  const { isMobile } = useSidebar()
-
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const { isMobile } = useSidebar()
+  const router = useRouter()
 
   return (
     <SidebarMenu>
@@ -92,7 +94,13 @@ export function NavUser({
 
             <DropdownMenuSeparator />
 
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onSelect={() => {
+                router.push('/')
+                localStorage.removeItem('accessToken')
+                toast.info('Usuário desconectado com sucesso')
+              }}
+            >
               <LogOutIcon />
               Sair
             </DropdownMenuItem>
