@@ -1,5 +1,6 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, request, g
 from werkzeug.security import generate_password_hash
+from datetime import datetime
 from features.auth.utils import require_admin
 from models.user import User
 from extensions import db
@@ -12,7 +13,7 @@ users_bp = Blueprint('users', __name__, url_prefix='/users')
 def get_users():
     users = User.query.all()
     users_data = [user.to_dict() for user in users]
-    return jsonify({'users': users_data})
+    return jsonify({"users": users_data}), 200
 
 
 @users_bp.route('/', methods=['POST'])
@@ -31,7 +32,7 @@ def create_user():
     
     valid_types = ['ADMIN', 'DEFAULT']
     if type not in valid_types:
-    return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
+        return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
 
     isEmailBeingUsed = User.query.filter_by(email=email).first() is not None
 
