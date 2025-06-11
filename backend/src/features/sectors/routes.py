@@ -1,0 +1,45 @@
+from flask import Blueprint, jsonify, request, g
+from datetime import datetime, timezone
+from features.auth.utils import require_authentication
+from models.sector import Sector
+from extensions import db
+
+sectors_bp = Blueprint('sectors', __name__, url_prefix='/sectors')
+
+
+@sectors_bp.route('/', methods=['GET'])
+@require_authentication
+def get_sectors():
+    sectors = Sector.query.all()
+    sectors_data = [sector.to_dict() for sector in sectors]
+    return jsonify({'sectors': sectors_data})
+
+
+@sectors_bp.route('/', methods=['POST'])
+@require_authentication
+def create_sector():
+    data = request.get_json()
+
+    if not data or not data.get('name') or not data.get('slug'):
+        return jsonify({'error': "Fields 'name' and 'slug' are required."}), 400
+
+    name = data.get('name')
+    slug = data.get('slug')
+
+    if Sector.query.filter_by(slug=slug).first():
+        return jsonify({"error": "Sector with this slug already exists"}), 409
+
+    user_id = g.g_token_payload['sub']
+    created_at = datetime.now(timezone.utc)
+
+    sector = Sector(
+        name=name,
+        slug=slug,
+        created_by=user_id,
+        created_at=created_at
+    )
+
+    db.session.add(sector)
+    db.session.commit()
+
+    return jsonify(sector.to_dict()), 201
