@@ -1,13 +1,13 @@
 from flask import Blueprint, jsonify, request, g
 from werkzeug.security import generate_password_hash
 from datetime import datetime
-from features.auth.utils import require_admin
+from features.auth.utils import require_admin, require_authentication
 from models.user import User
 from extensions import db
 
 users_bp = Blueprint('users', __name__, url_prefix='/users')
 
-# Listar usuários
+
 @users_bp.route('/', methods=['GET'])
 @require_admin
 def get_users():
@@ -15,7 +15,7 @@ def get_users():
     users_data = [user.to_dict() for user in users]
     return jsonify({"users": users_data}), 200
 
-# Criar usuários
+
 @users_bp.route('/', methods=['POST'])
 @require_admin
 def create_user():
@@ -49,9 +49,9 @@ def create_user():
     db.session.commit()
     return jsonify({'success': 'User created successfully'}), 201
 
-# Atualizar usuário
+
 @users_bp.route('/', methods=['PUT'])
-@require_admin
+@require_authentication
 def update_user():
     data = request.get_json()
     
