@@ -68,22 +68,36 @@ def list_screen():
 @require_authentication
 def screen_search(screen_id):
     try:
-        UUID(screen_id, version=4)
-    except ValueError:
+        screen = Screen.query.filter_by(id=screen_id).first()  
+        if not screen:
+            return jsonify({'error': 'Screen not found'}), 404
+    
+        return jsonify({
+            "id": screen.id,
+            "name": screen.name,
+            "slug": screen.slug,
+            "sector_id": screen.sector_id,
+            "created_at": screen.created_at,
+            "created_by": screen.created_by,
+            "updated_at": screen.updated_at,
+            "updated_by": screen.updated_by
+        }), 200
+
+    except:
         return jsonify({"error": "Invalid screen ID"}), 400
     
-    screen = Screen.query.filter_by(id=screen_id).first()  
     
+@screens_bp.route('/<screen_id>', methods=['DELETE'])
+@require_authentication
+def delete_screen(screen_id):
+    screen = Screen.query.filter_by(id=screen_id).first()  
     if not screen:
         return jsonify({'error': 'Screen not found'}), 404
+        
+    try:
+        db.session.delete(screen)
+        db.session.commit()
+        return jsonify({'sucess': 'Screen deleted successfully'}), 200
+    except:
+        return jsonify({'error': 'Validation error'}), 400
     
-    return jsonify({
-        "id": screen.id,
-        "name": screen.name,
-        "slug": screen.slug,
-        "sector_id": screen.sector_id,
-        "created_at": screen.created_at,
-        "created_by": screen.created_by,
-        "updated_at": screen.updated_at,
-        "updated_by": screen.updated_by
-    }), 200
