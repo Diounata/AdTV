@@ -5,6 +5,7 @@ from extensions import db
 from flask import g
 from models.sector import Sector
 from uuid import UUID
+from datetime import datetime, timezone
 
 screens_bp = Blueprint('screens', __name__, url_prefix='/screens')
 
@@ -86,7 +87,53 @@ def screen_search(screen_id):
     except:
         return jsonify({"error": "Invalid screen ID"}), 400
     
+@screens_bp.route('/<screen_id>', methods=['PUT'])
+@require_authentication
+def edit_screen(screen_id):
+    update_data = request.get_json()
     
+    if not update_data:
+        return jsonify({'error': 'No data to update'}), 400
+    
+    screen= Screen.query.filter_by(id=screen_id).first()
+    
+    if not screen:
+        return jsonify({'error': 'Screen not found'}), 404
+    
+    name = update_data.get('name')
+    slug = update_data.get('slug')
+    sector_id = update_data.get('sector_id')
+    
+    if not all([name, slug, sector_id]):
+        return jsonify({'error': 'Missing fields in request body'}), 400
+    
+    existing_slug = Screen.query.filter(
+        Screen.slug == slug,
+        Screen.id != screen_id
+    ).first()
+    if existing_slug:
+        return jsonify({'error': 'Slug already exists'}), 409
+    
+    sector_exists = Sector.query.filter_by(id=sector_id).first()
+    if not sector_exists:
+        return jsonify({'error': 'Sector not found'}), 404
+    
+    screen.name = name
+    screen.slug = slug
+    screen.sector_id = sector_id
+    screen.updated_at = datetime.now(timezone.utc)
+    screen.updated_by = g.token_payload.get('sub')
+    
+    db.session.commit()
+    return jsonify({'success': 'Screen updated successfully',
+                    'screen': {
+                        'name': screen.name,
+                        'slug': screen.slug,
+                        'sector_id': screen.sector_id,
+                    }
+                    }), 200
+    
+
 @screens_bp.route('/<screen_id>', methods=['DELETE'])
 @require_authentication
 def delete_screen(screen_id):
