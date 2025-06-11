@@ -4,6 +4,7 @@ from features.auth.utils import require_authentication
 from models.sector import Sector
 from extensions import db
 
+
 sectors_bp = Blueprint('sectors', __name__, url_prefix='/sectors')
 
 
@@ -14,12 +15,12 @@ def get_sectors():
     sectors_data = [sector.to_dict() for sector in sectors]
     return jsonify({'sectors': sectors_data})
 
-
+  
 @sectors_bp.route('/', methods=['POST'])
 @require_authentication
 def create_sector():
     data = request.get_json()
-
+    
     if not data or not data.get('name') or not data.get('slug'):
         return jsonify({'error': "Fields 'name' and 'slug' are required."}), 400
 
@@ -42,4 +43,4 @@ def create_sector():
     db.session.add(sector)
     db.session.commit()
 
-    return jsonify(sector.to_dict()), 201
+    return jsonify({'success': 'Sector created successfully', 'sector_id': sector.id}), 201
