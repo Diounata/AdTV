@@ -1,12 +1,14 @@
-@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk2NzYyNjcsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.er4QkQ3pDvsM2ZkmWYbL2GJLQNtq9bhnBQrTzcg8wDQ
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk4MzUxMDcsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.AhRuWl5tl9lZ_TDx2DwEfcizq2GJKC8KGXfzGgOxx3g
 
 ###
 
+# Listar usuários
 GET http://127.0.0.1:4000/users
 Authorization: {{accessToken}}
 
 ###
 
+# Verificar tipo
 POST http://127.0.0.1:4000/users
 Authorization: {{accessToken}}
 Content-Type: application/json
@@ -17,9 +19,9 @@ Content-Type: application/json
     "type": "NADA",
     "password": "1234"
 }
-
 ###
 
+# Token
 POST http://127.0.0.1:4000/auth/login
 Authorization: {{accessToken}}
 Content-Type: application/json
@@ -30,6 +32,7 @@ Content-Type: application/json
 }
 
 ###
+# Atualizar usuário
 PUT http://127.0.0.1:4000/users
 Content-Type: application/json
 Authorization: {{accessToken}}
@@ -37,4 +40,15 @@ Authorization: {{accessToken}}
 {
     "name": "Gabriel Freitas",
     "email": "gabriel.freitas8@estudante.ifms.edu.br"
+}
+###
+
+# Atualizar senha
+PUT http://127.0.0.1:4000/users/password
+Content-Type: application/json
+Authorization: {{accessToken}}
+
+{
+    "current_password": "nova_senha_456",
+    "new_password": "gabriel123"
 }

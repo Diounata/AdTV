@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, g
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from features.auth.utils import require_admin, require_authentication
 from models.user import User
@@ -91,3 +91,26 @@ def update_user():
         'success': 'User updated successfully',
         'user': user.to_dict()
     }), 200
+
+  
+@users_bp.route('/password', methods=['PUT'])
+@require_admin
+def update_password():
+    data = request.get_json()
+
+    if not data or not data.get('current_password') or not data.get('new_password'):
+        return jsonify({"error": "current_password and new_password are required"}), 400
+
+    user_id = g.token_payload.get('sub')
+    user = User.query.get(user_id)
+    
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    if not check_password_hash(user.hashed_password, data['current_password']):
+        return jsonify({"error": "Current password is incorrect"}), 401
+
+    user.hashed_password = generate_password_hash(data['new_password'])
+    db.session.commit()
+
+    return jsonify({"success": "Password updated"}), 200
