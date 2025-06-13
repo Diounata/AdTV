@@ -88,3 +88,18 @@ def delete_sector(sector_id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': f'Error deleting sector: {str(e)}'}), 400
+
+
+@sectors_bp.route('/<string:sector_id>', methods=['GET'])
+@require_authentication
+def get_sector(sector_id):
+    try:
+        sector = Sector.query.get(sector_id)
+
+        if not sector:
+            return jsonify({'error:' 'Sector not found'}), 404
+        
+        return jsonify({'sector': sector.to_dict()}), 200
+    
+    except Exception as e:
+        return jsonify({'error': f'Error fetching sector: {str(e)}'}), 400
