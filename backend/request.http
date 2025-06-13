@@ -1,5 +1,4 @@
-@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk4MzUxMDcsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.AhRuWl5tl9lZ_TDx2DwEfcizq2GJKC8KGXfzGgOxx3g
-
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk4MzkyNDMsInN1YiI6ImE4MjQxNTQ3LTRjMTItNDk2YS1iYWRmLTVhMWZhMjU0OGJmYiIsInR5cGUiOiJBRE1JTiJ9.enr3-E8RdA9klltUvCrivrvXi186TKTd1JdVqLDxdSI
 ###
 
 # Listar usuários
@@ -14,9 +13,9 @@ Authorization: {{accessToken}}
 Content-Type: application/json
 
 {
-    "name":"Teste",
-    "email": "teste@gmail.com",
-    "type": "NADA",
+    "name":"Gabriel Felipe",
+    "email": "gabrielfelp@gmail.com",
+    "type": "ADMIN",
     "password": "1234"
 }
 ###
@@ -52,3 +51,9 @@ Authorization: {{accessToken}}
     "current_password": "nova_senha_456",
     "new_password": "gabriel123"
 }
+###
+
+# Buscar dados de usuários autenticados
+GET http://127.0.0.1:4000/auth/me
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
