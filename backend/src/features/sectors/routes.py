@@ -44,3 +44,20 @@ def create_sector():
     db.session.commit()
 
     return jsonify({'success': 'Sector created successfully', 'sector_id': sector.id}), 201
+
+
+@sectors_bp.route('/<string:sector_id>', methods=['DELETE'])
+@require_authentication
+def delete_sector(sector_id):
+    sector = Sector.query.get(sector_id)
+
+    if not sector:
+        return jsonify({'error': 'Sector not found'}), 404
+    
+    try:
+        db.session.delete(sector)
+        db.session.commit()
+        return jsonify({'success': 'Sector deleted succesfully'}), 200
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': f'Error deleting sector: {str(e)}'}), 400
