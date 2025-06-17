@@ -6,6 +6,7 @@ from flask import g
 from models.sector import Sector
 from uuid import UUID
 from datetime import datetime, timezone
+from sqlalchemy.orm import joinedload
 
 screens_bp = Blueprint('screens', __name__, url_prefix='/screens')
 
@@ -49,21 +50,36 @@ def create_screen():
 @screens_bp.route('/', methods=['GET'])
 @require_authentication
 def list_screen():
-    screens = Screen.query.all()
-    result = [
-        {
-            "id": screen.id,
-            "name": screen.name,
-            "slug": screen.slug,
-            "sector_id": screen.sector_id,
-            "created_at": screen.created_at,
-            "created_by": screen.created_by,
-            "updated_at": screen.updated_at,
-            "updated_by": screen.updated_by
+    sectors = Sector.query.options(joinedload(Sector.screens)).all()
+    result = []
+    
+    for sector in sectors:
+        
+        screens = [
+            {
+                "id": screen.id,
+                "name": screen.name,
+                "slug": screen.slug,
+                "sector_id": screen.sector_id,
+                "created_at": screen.created_at,
+                "created_by": screen.created_by,
+                "updated_at": screen.updated_at,     
+                "updated_by": screen.updated_by
+            }   
+            for screen in sector.screens
+        ]
+    
+        sector_data = {
+            "id": sector.id,
+            "name": sector.name,
+            "slug": sector.slug,
+            "screens": screens
         }
-        for screen in screens
-    ]
-    return jsonify({"screens": result}), 200
+        
+        result.append(sector_data)
+    
+    
+    return jsonify({"sectors": result}), 200
 
 @screens_bp.route('/<screen_id>', methods=['GET'])
 @require_authentication
