@@ -103,3 +103,4 @@ def get_sector(sector_id):
     
     except Exception as e:
         return jsonify({'error': f'Error fetching sector: {str(e)}'}), 400
+      
