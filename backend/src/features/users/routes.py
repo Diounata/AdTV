@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, request, g
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
 from features.auth.utils import require_admin, require_authentication
 from models.user import User
 from extensions import db
@@ -29,7 +28,7 @@ def create_user():
     email = data.get('email')
     type = data.get('type')
     password = data.get('password')
-    
+
     valid_types = ['ADMIN', 'DEFAULT']
     if type not in valid_types:
         return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
@@ -54,45 +53,39 @@ def create_user():
 @require_authentication
 def update_user():
     data = request.get_json()
-    
+
     if not data:
         return jsonify({'error': 'No data provided'}), 400
-    
+
     user_id = g.token_payload.get('sub')
-    
+
     if not user_id:
         return jsonify({'error': 'Invalid token payload'}), 401
-    
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({'error': 'User not found'}), 404
-    
+
     if 'name' in data:
         user.name = data['name']
-    
-    if 'email' in data:
-        new_email = data['email']
-        if new_email != user.email and User.query.filter_by(email=new_email).first() is not None:
-            return jsonify({'error': 'Email already in use'}), 409
-        user.email = new_email
-    
+
     if 'password' in data:
         user.hashed_password = generate_password_hash(data['password'])
-    
+
     if 'type' in data:
         valid_types = ['ADMIN', 'DEFAULT']
         if data['type'] not in valid_types:
             return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
         user.type = data['type']
-    
+
     db.session.commit()
-    
+
     return jsonify({
         'success': 'User updated successfully',
         'user': user.to_dict()
     }), 200
 
-  
+
 @users_bp.route('/password', methods=['PUT'])
 @require_admin
 def update_password():
@@ -103,7 +96,7 @@ def update_password():
 
     user_id = g.token_payload.get('sub')
     user = User.query.get(user_id)
-    
+
     if not user:
         return jsonify({"error": "User not found"}), 404
 
@@ -114,3 +107,28 @@ def update_password():
     db.session.commit()
 
     return jsonify({"success": "Password updated"}), 200
+
+
+@users_bp.route('/me', methods=['GET'])
+@require_authentication
+def get_authenticated_user():
+    user_id = g.token_payload.get('sub')
+
+    if not user_id:
+        return jsonify({'error': 'Invalid token payload'}), 401
+
+    user = User.query.get(user_id)
+
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    return jsonify({
+        'user': {
+            'id': str(user.id),
+            'name': user.name,
+            'email': user.email,
+            'type': user.type,
+            'createdAt': user.created_at.isoformat() if user.created_at else None,
+            'updatedAt': user.updated_at.isoformat() if user.updated_at else None
+        }
+    }), 200
