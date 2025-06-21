@@ -3,6 +3,7 @@ from .services import generate_token, verify_user_password
 from models.user import User
 
 
+
 auth_bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 
