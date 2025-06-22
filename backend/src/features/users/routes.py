@@ -10,12 +10,21 @@ users_bp = Blueprint('users', __name__, url_prefix='/users')
 @users_bp.route('/', methods=['GET'])
 @require_admin
 def get_users():
-    users = User.query.all()
-    users_data = [user.to_dict() for user in users]
-    return jsonify({"users": users_data}), 200
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    pagination = User.query.order_by(User.name.asc()).paginate(
+        page=page, per_page=per_page, error_out=False)
+    users_data = [user.to_dict() for user in pagination.items]
+    return jsonify({
+        "page": pagination.page,
+        "itemsPerPage": pagination.per_page,
+        "items": users_data,
+        "totalItems": pagination.total,
+        "totalPages": pagination.pages
+    }), 200
 
 
-@users_bp.route('/', methods=['POST'])
+@users_bp.route('', methods=['POST', 'OPTIONS'])
 @require_admin
 def create_user():
     data = request.get_json()
@@ -36,7 +45,7 @@ def create_user():
     isEmailBeingUsed = User.query.filter_by(email=email).first() is not None
 
     if isEmailBeingUsed:
-        return jsonify({'error': 'Email already in use'}), 409
+        return jsonify({'code': 'email-being-used', 'message': 'Email already in use'}), 409
 
     user = User(
         name=name,
@@ -69,15 +78,6 @@ def update_user():
     if 'name' in data:
         user.name = data['name']
 
-    if 'password' in data:
-        user.hashed_password = generate_password_hash(data['password'])
-
-    if 'type' in data:
-        valid_types = ['ADMIN', 'DEFAULT']
-        if data['type'] not in valid_types:
-            return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
-        user.type = data['type']
-
     db.session.commit()
 
     return jsonify({
@@ -91,8 +91,8 @@ def update_user():
 def update_password():
     data = request.get_json()
 
-    if not data or not data.get('current_password') or not data.get('new_password'):
-        return jsonify({"error": "current_password and new_password are required"}), 400
+    if not data or not data.get('currentPassword') or not data.get('newPassword'):
+        return jsonify({"error": "currentPassword and newPassword are required"}), 400
 
     user_id = g.token_payload.get('sub')
     user = User.query.get(user_id)
@@ -100,10 +100,10 @@ def update_password():
     if not user:
         return jsonify({"error": "User not found"}), 404
 
-    if not check_password_hash(user.hashed_password, data['current_password']):
-        return jsonify({"error": "Current password is incorrect"}), 401
+    if not check_password_hash(user.hashed_password, data['currentPassword']):
+        return jsonify({'code': 'invalid-credentials', 'message': 'Invalid credentials'}), 401
 
-    user.hashed_password = generate_password_hash(data['new_password'])
+    user.hashed_password = generate_password_hash(data['newPassword'])
     db.session.commit()
 
     return jsonify({"success": "Password updated"}), 200
@@ -132,3 +132,27 @@ def get_authenticated_user():
             'updatedAt': user.updated_at.isoformat() if user.updated_at else None
         }
     }), 200
+
+
+@users_bp.route('/type', methods=['PUT', 'OPTIONS'])
+@require_admin
+def update_user_type():
+    data = request.get_json()
+    if not data or not data.get('userId') or not data.get('type'):
+        return jsonify({'error': 'userId and type are required'}), 400
+
+    user_id = data.get('userId')
+    new_type = data.get('type')
+    valid_types = ['ADMIN', 'DEFAULT']
+
+    if new_type not in valid_types:
+        return jsonify({'error': f'Invalid user type. Must be one of: {", ".join(valid_types)}'}), 400
+
+    user = User.query.get(user_id)
+    if not user:
+        return jsonify({'error': 'User not found'}), 404
+
+    user.type = new_type
+    db.session.commit()
+
+    return jsonify({'success': 'User type updated successfully'}), 200

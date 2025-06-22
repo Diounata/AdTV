@@ -3,7 +3,6 @@ import z from 'zod'
 
 export const editUserFormSchema = z.object({
   name: formSchema.string(),
-  email: formSchema.email,
 })
 
 export type EditUserFormInput = z.infer<typeof editUserFormSchema>

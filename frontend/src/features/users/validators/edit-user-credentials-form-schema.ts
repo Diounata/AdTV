@@ -5,7 +5,7 @@ import z from 'zod'
 export const editUserCredentialsFormSchema = z
   .object({
     email: formSchema.email,
-    currentPassword: formSchema.password,
+    password: formSchema.password,
     newPassword: formSchema.password,
     repeatNewPassword: formSchema.password,
   })

@@ -13,7 +13,12 @@ from features.users.routes import users_bp
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
+    CORS(
+        app,
+        supports_credentials=True,
+        origins="*",
+        allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"])
     app.config.from_object(Config)
     app.register_blueprint(auth_bp)
     app.register_blueprint(screens_bp)

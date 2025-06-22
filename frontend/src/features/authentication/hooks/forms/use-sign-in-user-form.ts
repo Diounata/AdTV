@@ -7,11 +7,9 @@ import { useRouter } from 'next/navigation'
 import { useCallback } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { useLoginUserMutation } from '../react-query/mutations/use-login-user-mutation'
+import { useLoginUserMutation } from '../react-query/use-login-user-mutation'
 
 export function useSignInUser() {
-  const router = useRouter()
-  const loginUserMutation = useLoginUserMutation()
   const signInUserForm = useForm<SignInUserFormInput>({
     resolver: zodResolver(signInUserFormSchema),
     defaultValues: {
@@ -20,6 +18,9 @@ export function useSignInUser() {
     },
   })
 
+  const loginUserMutation = useLoginUserMutation({ form: signInUserForm })
+  const router = useRouter()
+
   const onSubmit: SubmitHandler<SignInUserFormInput> = useCallback(
     async ({ email, password }) => {
       await loginUserMutation.mutateAsync({
@@ -27,10 +28,11 @@ export function useSignInUser() {
         password,
       })
 
-      toast.info('Usuário autenticado com sucesso')
+      toast('Usuário autenticado com sucesso')
       router.push('/dashboard')
+      signInUserForm.reset()
     },
-    [loginUserMutation, router]
+    [loginUserMutation, router, signInUserForm]
   )
 
   return {

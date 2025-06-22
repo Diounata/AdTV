@@ -7,8 +7,8 @@ export function UserTypeSelect() {
       name="type"
       placeholder="Selecione o tipo de usuário"
       options={[
-        { id: 'admin', label: 'Administrador', value: 'admin' },
-        { id: 'default', label: 'Padrão', value: 'default' },
+        { id: 'admin', label: 'Administrador', value: 'ADMIN' },
+        { id: 'default', label: 'Padrão', value: 'DEFAULT' },
       ]}
     />
   )

@@ -9,18 +9,13 @@ import {
 } from '@/components/ui/sidebar'
 import { NavSection } from '@/features/dashboard/components/sidebar/nav-section'
 import { NavUser } from '@/features/dashboard/components/sidebar/nav-user'
-import { EditUserCredentialsForm } from '@/features/users/components/edit-user-credentials-form'
-import { EditUserForm } from '@/features/users/components/edit-user-form'
+import { EditUserCredentialsForm } from '@/features/users/components/forms/edit-user-credentials-form'
+import { EditUserForm } from '@/features/users/components/forms/edit-user-form'
 import { HelpCircleIcon, HomeIcon, ImageIcon, MapIcon, MonitorIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
 
 const data = {
-  user: {
-    name: 'Alex Araújo',
-    email: 'alex.araujo@ifms.edu.br',
-    avatar: '/avatars/alex.jpg',
-  },
   navMain: [
     {
       title: 'Início',
@@ -79,7 +74,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
 
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
         <EditUserForm />
         <EditUserCredentialsForm />
       </SidebarFooter>

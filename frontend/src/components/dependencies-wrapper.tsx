@@ -15,7 +15,7 @@ export function DependenciesWrapper({ children }: PropsWithChildren) {
     <NuqsAdapter>
       <QueryClientProvider client={queryClient}>
         {children}
-        <SonnerToaster richColors position="top-center" />
+        <SonnerToaster position="top-center" richColors />
       </QueryClientProvider>
     </NuqsAdapter>
   )
