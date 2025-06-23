@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { Typography } from "../typography";
 
 interface Props {
@@ -24,7 +25,10 @@ export function PageContentTotalItems({
         {totalItems === 1 ? singularText : pluralText}
       </Typography>
 
-      <Typography variant="smallText">
+      <Typography
+        variant="smallText"
+        className={cn(pagesTotal < 1 && "hidden")}
+      >
         Página {page} de {pagesTotal}
       </Typography>
     </section>

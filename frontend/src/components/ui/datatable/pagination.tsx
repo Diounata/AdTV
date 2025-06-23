@@ -49,6 +49,8 @@ export function Pagination({ pagesTotal }: Props) {
     }
   }, [page, setPage, table]);
 
+  if (pagesTotal <= 0) return null;
+
   return (
     <section className="flex gap-1.5">
       <Button

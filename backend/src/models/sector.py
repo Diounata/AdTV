@@ -18,11 +18,16 @@ class Sector(db.Model):
     updated_at = db.Column(db.DateTime, nullable=True)
     updated_by = db.Column(
         db.String(36), db.ForeignKey('users.id'), nullable=True)
+    deleted_at = db.Column(db.DateTime, nullable=True)
+    deleted_by = db.Column(
+        db.String(36), db.ForeignKey('users.id'), nullable=True)
 
     creator = relationship('User', foreign_keys=[
                            created_by], backref='created_sectors')
     updater = relationship('User', foreign_keys=[
                            updated_by], backref='updated_sectors')
+    deleter = relationship('User', foreign_keys=[
+                           deleted_by], backref='deleted_sectors')
 
     def __repr__(self):
         return f'<Sector {self.name}>'
@@ -32,8 +37,8 @@ class Sector(db.Model):
             'id': self.id,
             'name': self.name,
             'slug': self.slug,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'created_by': self.created_by,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
-            'updated_by': self.updated_by
+            'createdAt': self.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.created_at else None,
+            'createdBy': self.created_by,
+            'updatedAt': self.updated_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.updated_at else None,
+            'updatedBy': self.updated_by
         }

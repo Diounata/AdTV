@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import {
   Sidebar,
   SidebarContent,
@@ -6,56 +6,64 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
-} from '@/components/ui/sidebar'
-import { NavSection } from '@/features/dashboard/components/sidebar/nav-section'
-import { NavUser } from '@/features/dashboard/components/sidebar/nav-user'
-import { EditUserCredentialsForm } from '@/features/users/components/forms/edit-user-credentials-form'
-import { EditUserForm } from '@/features/users/components/forms/edit-user-form'
-import { HelpCircleIcon, HomeIcon, ImageIcon, MapIcon, MonitorIcon, UsersIcon, WallpaperIcon } from 'lucide-react'
-import Image from 'next/image'
-import * as React from 'react'
+} from "@/components/ui/sidebar";
+import { NavSection } from "@/features/dashboard/components/sidebar/nav-section";
+import { NavUser } from "@/features/dashboard/components/sidebar/nav-user";
+import { EditUserCredentialsForm } from "@/features/users/components/forms/edit-user-credentials-form";
+import { EditUserForm } from "@/features/users/components/forms/edit-user-form";
+import {
+  HelpCircleIcon,
+  HomeIcon,
+  ImageIcon,
+  MapIcon,
+  MonitorIcon,
+  UsersIcon,
+  WallpaperIcon,
+} from "lucide-react";
+import Image from "next/image";
+import * as React from "react";
 
 const data = {
   navMain: [
     {
-      title: 'Início',
-      url: '/dashboard',
+      title: "Início",
+      url: "/dashboard",
       icon: HomeIcon,
     },
     {
-      title: 'Anúncios',
-      url: '#',
+      title: "Anúncios",
+      url: "#",
       icon: ImageIcon,
     },
     {
-      title: 'Anúncios ativos',
-      url: '#',
+      title: "Anúncios ativos",
+      url: "#",
       icon: WallpaperIcon,
     },
     {
-      title: 'Telas',
-      url: '#',
+      title: "Telas",
+      url: "#",
       icon: MonitorIcon,
     },
     {
-      title: 'Seções',
-      url: '#',
+      title: "Setores",
+      url: "/dashboard/setores",
       icon: MapIcon,
     },
     {
-      title: 'Sobre o site',
-      url: '#',
+      title: "Sobre o site",
+      url: "#",
       icon: HelpCircleIcon,
     },
   ],
   navAdmin: [
     {
-      title: 'Usuários',
-      url: '/dashboard/usuarios',
+      title: "Usuários",
+      url: "/dashboard/usuarios",
       icon: UsersIcon,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -63,7 +71,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenu className="flex flex-col items-center">
           <SidebarMenuItem>
-            <Image src="/images/logo-text.png" alt="AdTV" width={150} height={150} />
+            <Image
+              src="/images/logo-text.png"
+              alt="AdTV"
+              width={150}
+              height={150}
+            />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
@@ -79,5 +92,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <EditUserCredentialsForm />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
