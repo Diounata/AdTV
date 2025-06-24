@@ -13,12 +13,16 @@ class Screen(db.Model):
     slug = db.Column(db.String(120), unique=True, nullable=False)
     sector_id = db.Column(db.String(36), db.ForeignKey(
         'sectors.id'), nullable=False)
+    last_device_seen_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(
         timezone.utc), nullable=False)
     created_by = db.Column(
         db.String(36), db.ForeignKey('users.id'), nullable=False)
     updated_at = db.Column(db.DateTime, nullable=True)
     updated_by = db.Column(
+        db.String(36), db.ForeignKey('users.id'), nullable=True)
+    deleted_at = db.Column(db.DateTime, nullable=True)
+    deleted_by = db.Column(
         db.String(36), db.ForeignKey('users.id'), nullable=True)
 
     creator = relationship('User', foreign_keys=[
@@ -37,8 +41,9 @@ class Screen(db.Model):
             'name': self.name,
             'slug': self.slug,
             'sector_id': self.sector_id,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'created_by': self.created_by,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None,
-            'updated_by': self.updated_by
+            'lastDeviceSeenAt': self.last_device_seen_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.last_device_seen_at else None,
+            'createdAt': self.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.created_at else None,
+            'createdBy': self.created_by,
+            'updatedAt': self.updated_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.updated_at else None,
+            'updatedBy': self.updated_by,
         }

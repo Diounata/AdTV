@@ -42,7 +42,7 @@ const data = {
     },
     {
       title: "Telas",
-      url: "#",
+      url: "/dashboard/telas",
       icon: MonitorIcon,
     },
     {

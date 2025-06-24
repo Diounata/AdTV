@@ -8,27 +8,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Sector } from "@/features/sectors/types/sector";
 import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
-import { useDeleteSectorHandler } from "../../hooks/handlers/use-delete-sector-handler";
-import { DeleteSectorDialog } from "./delete-sector-dialog";
+import { useDeleteScreenHandler } from "../../hooks/handlers/use-delete-screen-handler";
+import { ScreenDisplay } from "../../types/screen-display";
+import { DeleteScreenDialog } from "./delete-screen-dialog";
 
 interface Props {
-  sector: Sector;
+  screen: ScreenDisplay;
 }
 
-export function SectorsDatatableActions({ sector }: Props) {
-  const { deleteSectorHandler } = useDeleteSectorHandler({
-    sectorId: sector.id,
+export function ScreensDatatableActions({ screen }: Props) {
+  const { deleteScreenHandler } = useDeleteScreenHandler({
+    screenId: screen.id,
   });
-  const [, setSectorId] = useQueryState(
-    "editar-setor",
+  const [, setScreenId] = useQueryState(
+    "editar-tela",
     parseAsString.withDefault(""),
   );
 
   return (
-    <DeleteSectorDialog sector={sector}>
+    <DeleteScreenDialog screen={screen}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -41,7 +41,7 @@ export function SectorsDatatableActions({ sector }: Props) {
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem onClick={() => setSectorId(sector.id)}>
+          <DropdownMenuItem onClick={() => setScreenId(screen.id)}>
             <Pencil />
             Editar
           </DropdownMenuItem>
@@ -54,6 +54,6 @@ export function SectorsDatatableActions({ sector }: Props) {
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </DeleteSectorDialog>
+    </DeleteScreenDialog>
   );
 }
