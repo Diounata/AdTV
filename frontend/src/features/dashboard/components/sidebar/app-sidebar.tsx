@@ -52,7 +52,7 @@ const data = {
     },
     {
       title: "Sobre o site",
-      url: "#",
+      url: "/dashboard/sobre",
       icon: HelpCircleIcon,
     },
   ],
