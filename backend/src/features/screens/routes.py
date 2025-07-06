@@ -4,9 +4,7 @@ from models.screen import Screen
 from extensions import db
 from flask import g
 from models.sector import Sector
-from uuid import UUID
 from datetime import datetime, timezone
-from sqlalchemy.orm import joinedload
 
 screens_bp = Blueprint('screens', __name__, url_prefix='/screens')
 
@@ -167,7 +165,8 @@ def delete_screen(screen_id):
         return jsonify({'error': 'Screen already deleted'}), 400
 
     try:
-        screen.slug = screen.slug + '-deleted-' + datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')
+        screen.slug = screen.slug + '-deleted-' + \
+            datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')
         screen.deleted_at = datetime.now(timezone.utc)
         screen.deleted_by = g.token_payload.get('sub')
         db.session.commit()
@@ -191,7 +190,8 @@ def update_screen_last_device_seen(screen_id):
         return jsonify({'error': 'Screen not found'}), 404
 
     try:
-        screen.last_device_seen_at = datetime.fromisoformat(last_device_seen_at)
+        screen.last_device_seen_at = datetime.fromisoformat(
+            last_device_seen_at)
     except Exception:
         return jsonify({'error': 'Invalid date format for lastDeviceSeenAt'}), 400
     db.session.commit()

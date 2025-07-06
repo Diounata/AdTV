@@ -32,7 +32,7 @@ const data = {
     },
     {
       title: "Anúncios",
-      url: "#",
+      url: "/dashboard/anuncios",
       icon: ImageIcon,
     },
     {

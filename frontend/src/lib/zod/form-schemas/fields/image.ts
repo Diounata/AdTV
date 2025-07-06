@@ -18,14 +18,18 @@ export const image = ({ isOptional = false }: Props) =>
     )
     .refine(
       (files) =>
-        !files || files.length === 0 || files[0].size <= MAX_FILE_SIZE_IN_BYTES,
+        !files ||
+        files?.length === 0 ||
+        files[0]?.size <= MAX_FILE_SIZE_IN_BYTES,
       formErrors.image.exceededFileSize(MAX_FILE_SIZE_IN_MB),
     )
     .refine(
       (files) =>
         !files ||
-        files.length === 0 ||
-        ACCEPTED_IMAGE_TYPES.includes(files[0].type),
+        files?.length === 0 ||
+        ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
       formErrors.image.invalidFileType,
     )
-    .transform((files) => (files && files.length > 0 ? files[0] : undefined));
+    .transform((files) =>
+      files && files.length > 0 ? (files[0] as File) : undefined,
+    );
