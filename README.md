@@ -70,6 +70,11 @@ pip install -r requirements.txt
 py src/app.py
 ```
 
+### 🚨 Atenção
+O backend está rodando na porta 4000 por padrão.
+Para acessar a aplicação, você deve utilizar o endereço `http://localhost:4000`.
+
+
 ---
 
 <p align="center">
