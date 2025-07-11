@@ -1,4 +1,4 @@
-<img src='https://github.com/Diounata/AdTV/blob/main/.github/adtv.png' align="center" width='150px' height='150px'/>
+<div align="center"><img src='https://github.com/Diounata/AdTV/blob/main/.github/adtv.png' width='300px' /></div>
 <h3 align="center">Frameworks para Desenvolvimento Web</h3>
 
 <p align="center">
