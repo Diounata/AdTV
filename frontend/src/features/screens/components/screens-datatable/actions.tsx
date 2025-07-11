@@ -8,11 +8,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { Eye, EyeOff, MoreHorizontal, Pencil, Trash2, View, Wallpaper } from "lucide-react";
 import { parseAsString, useQueryState } from "nuqs";
 import { useDeleteScreenHandler } from "../../hooks/handlers/use-delete-screen-handler";
 import { ScreenDisplay } from "../../types/screen-display";
 import { DeleteScreenDialog } from "./delete-screen-dialog";
+import Link from "next/link";
 
 interface Props {
   screen: ScreenDisplay;
@@ -40,6 +41,13 @@ export function ScreensDatatableActions({ screen }: Props) {
           <DropdownMenuLabel>Ações</DropdownMenuLabel>
 
           <DropdownMenuSeparator />
+
+          <DropdownMenuItem asChild>
+            <Link href={`/tela?tela-id=${screen.id}`} className="w-full">
+              <Wallpaper />
+              Visualizar tela
+            </Link>
+          </DropdownMenuItem>
 
           <DropdownMenuItem onClick={() => setScreenId(screen.id)}>
             <Pencil />

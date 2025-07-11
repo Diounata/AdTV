@@ -32,7 +32,6 @@ def get_announcement(announcement_id):
 
 
 @announcements_bp.route('/uploads/<string:media_filename>', methods=['GET'])
-@require_authentication
 def serve_image(media_filename):
     uploads_dir = os.path.join(current_app.root_path, '..', 'uploads')
     uploads_dir = os.path.abspath(uploads_dir)

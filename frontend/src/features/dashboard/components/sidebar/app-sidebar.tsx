@@ -36,11 +36,6 @@ const data = {
       icon: ImageIcon,
     },
     {
-      title: "Anúncios ativos",
-      url: "#",
-      icon: WallpaperIcon,
-    },
-    {
       title: "Telas",
       url: "/dashboard/telas",
       icon: MonitorIcon,

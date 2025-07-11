@@ -29,7 +29,6 @@ def login():
             f"Bearer {token}",
             expires=expires,
             httponly=True,
-            secure=True
         )
         return response
     return make_response({'code': 'invalid-credentials', 'message': 'Invalid credentials'}, 401)

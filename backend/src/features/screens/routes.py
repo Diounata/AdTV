@@ -83,6 +83,40 @@ def list_screen():
     }), 200
 
 
+@screens_bp.route('/by-sector', methods=['GET'])
+@require_authentication
+def list_screens_by_sector():
+    sectors = Sector.query.filter(
+        Sector.deleted_at == None).order_by(Sector.name.asc()).all()
+    result = []
+
+    for sector in sectors:
+        screens = Screen.query.filter(
+            Screen.sector_id == sector.id,
+            Screen.deleted_at == None
+        ).order_by(Screen.name.asc()).all()
+
+        screens_data = []
+        for screen in screens:
+            screens_data.append({
+                "id": screen.id,
+                "name": screen.name,
+                "slug": screen.slug,
+                "lastDeviceSeenAt": screen.last_device_seen_at if screen.last_device_seen_at else None,
+                "createdAt": screen.created_at,
+                "updatedAt": screen.updated_at,
+            })
+
+        result.append({
+            "sectorId": sector.id,
+            "sectorName": sector.name,
+            "sectorSlug": sector.slug,
+            "screens": screens_data
+        })
+
+    return jsonify(result), 200
+
+
 @screens_bp.route('/<screen_id>', methods=['GET'])
 @require_authentication
 def screen_search(screen_id):

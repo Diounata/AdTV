@@ -14,6 +14,7 @@ import {
   Image as LucideImage,
   Pencil,
   Trash2,
+  Wallpaper,
 } from "lucide-react";
 import Image from "next/image";
 import { useQueryState } from "nuqs";
@@ -22,6 +23,7 @@ import { EditAnnouncementFormDialog } from "../announcement-form-dialog/edit-ann
 import { DeleteAnnouncementDialog } from "./delete-announcement-dialog";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { LinkAnnouncementScreensDialog } from "../link-announcement-screens-dialog";
 
 interface Props {
   announcement: Announcement;
@@ -58,32 +60,43 @@ export function AnnouncementCard({ announcement }: Props) {
         </div>
 
         <DeleteAnnouncementDialog announcement={announcement}>
-          <DropdownMenu modal={false}>
-            <DropdownMenuTrigger asChild>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="absolute top-2 right-2 z-10 bg-white/50 shadow-md backdrop-blur"
-              >
-                <EllipsisVertical />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => setEditingAnnouncement(announcement.id)}
-              >
-                <Pencil /> Editar
-              </DropdownMenuItem>
-              <AlertDialogTrigger asChild>
-                <DropdownMenuItem>
-                  <Trash2 className="text-red-600" />
-                  <span className="text-red-600">Excluir</span>
+          <LinkAnnouncementScreensDialog announcement={announcement}>
+            <DropdownMenu modal={false}>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="absolute top-2 right-2 z-10 bg-white/50 shadow-md backdrop-blur"
+                >
+                  <EllipsisVertical />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+
+                <DialogTrigger asChild>
+                  <DropdownMenuItem>
+                    <Wallpaper /> Vincular telas
+                  </DropdownMenuItem>
+                </DialogTrigger>
+
+                <DropdownMenuSeparator />
+
+                <DropdownMenuItem
+                  onClick={() => setEditingAnnouncement(announcement.id)}
+                >
+                  <Pencil /> Editar
                 </DropdownMenuItem>
-              </AlertDialogTrigger>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <AlertDialogTrigger asChild>
+                  <DropdownMenuItem>
+                    <Trash2 className="text-red-600" />
+                    <span className="text-red-600">Excluir</span>
+                  </DropdownMenuItem>
+                </AlertDialogTrigger>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </LinkAnnouncementScreensDialog>
         </DeleteAnnouncementDialog>
       </div>
 

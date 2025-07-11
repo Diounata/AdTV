@@ -27,8 +27,4 @@ class Announcement(db.Model):
             'id': self.id,
             'name': self.name,
             'mediaFilename': self.media_filename,
-            'createdAt': self.created_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.created_at else None,
-            'createdBy': self.created_by,
-            'updatedAt': self.updated_at.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3] + 'Z' if self.updated_at else None,
-            'updatedBy': self.updated_by,
         }

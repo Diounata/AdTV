@@ -17,7 +17,7 @@ export function useCreateAnnouncement() {
   );
   const createAnnouncementMutation = useCreateAnnouncementMutation();
   const listAnnouncementsQuery = useListAnnouncementsQuery();
-  const createAnnouncementForm = useForm<CreateAnnouncementFormInput>({
+  const createAnnouncementForm = useForm({
     resolver: zodResolver(createAnnouncementFormSchema),
     defaultValues: {
       name: "",
