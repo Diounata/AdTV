@@ -25,7 +25,6 @@ export function InputFile({ label, name, description, inputProps }: Props) {
     <FormField
       control={form.control}
       name={name}
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render={({ field: { value, onChange, ...field } }) => (
         <FormItem className="w-full">
           <FormLabel>{label}</FormLabel>
@@ -43,7 +42,7 @@ export function InputFile({ label, name, description, inputProps }: Props) {
             />
           </FormControl>
 
-          <FormDescription>{description}</FormDescription>
+          {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}

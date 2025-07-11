@@ -1,11 +1,14 @@
-'use client'
-import { Header } from '@/features/dashboard/components/sidebar/header'
-import { UsersDatatable } from '@/features/users/components/users-datatable'
+"use client";
+import { MainContent } from "@/features/dashboard/components/main-content";
+import { UsersDatatable } from "@/features/users/components/users-datatable";
 
-export default function Page() {
+export default function UsersPage() {
   return (
-    <Header title="Usuários">
-      <UsersDatatable />
-    </Header>
-  )
+    <MainContent.Root>
+      <MainContent.Header>Usuários</MainContent.Header>
+      <MainContent.Content>
+        <UsersDatatable />
+      </MainContent.Content>
+    </MainContent.Root>
+  );
 }

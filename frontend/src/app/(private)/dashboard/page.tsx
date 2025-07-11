@@ -1,13 +1,15 @@
-'use client'
-import { Typography } from '@/components/ui/typography'
-import { Header } from '@/features/dashboard/components/sidebar/header'
+import { Typography } from "@/components/ui/typography";
+import { MainContent } from "@/features/dashboard/components/main-content";
 
 export default function Page() {
   return (
-    <Header title="Início">
-      <div>
-        <Typography variant="h6">Bem-vindo novamente, Alex Araújo</Typography>
-      </div>
-    </Header>
-  )
+    <MainContent.Root>
+      <MainContent.Header>Início</MainContent.Header>
+      <MainContent.Content>
+        <header>
+          <Typography variant="h2">Bem vindo novamente!</Typography>
+        </header>
+      </MainContent.Content>
+    </MainContent.Root>
+  );
 }

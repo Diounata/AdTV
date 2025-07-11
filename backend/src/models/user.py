@@ -8,12 +8,15 @@ from werkzeug.security import generate_password_hash
 class User(db.Model):
     __tablename__ = 'users'
 
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    id = db.Column(db.String(36), primary_key=True,
+                   default=lambda: str(uuid.uuid4()))
     name = db.Column(db.String(120), nullable=False)
-    type = db.Column(db.String(10), nullable=False, default='DEFAULT')  # 'ADMIN' | 'DEFAULT'
+    type = db.Column(db.String(10), nullable=False,
+                     default='DEFAULT')  # 'ADMIN' | 'DEFAULT'
     email = db.Column(db.String(120), unique=True, nullable=False)
     hashed_password = db.Column(db.String(256), nullable=False)
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False)
+    created_at = db.Column(db.DateTime, default=lambda: datetime.now(
+        timezone.utc), nullable=False)
     updated_at = db.Column(db.DateTime, default=None, nullable=True)
 
     def __repr__(self):
@@ -25,8 +28,8 @@ class User(db.Model):
             'name': self.name,
             'type': self.type,
             'email': self.email,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'updated_at': self.updated_at.isoformat() if self.updated_at else None
+            'createdAt': self.created_at.isoformat() if self.created_at else None,
+            'updatedAt': self.updated_at.isoformat() if self.updated_at else None
         }
 
     @staticmethod

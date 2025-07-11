@@ -12,10 +12,10 @@ import { useFormContext } from "react-hook-form";
 interface Props {
   label: string;
   name: string;
-  description?: string;
+  value: string;
 }
 
-export function Checkbox({ label, name, description }: Props) {
+export function Checkbox({ label, name, value }: Props) {
   const form = useFormContext();
 
   return (
@@ -23,17 +23,25 @@ export function Checkbox({ label, name, description }: Props) {
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border bg-muted p-4 dark:bg-zinc-900">
+        <FormItem className="flex flex-row items-start rounded-md dark:bg-zinc-900">
           <FormControl>
             <CheckboxField
-              checked={field.value}
-              onCheckedChange={field.onChange}
+              checked={Array.isArray(field.value) && field.value.includes(value)}
+              onCheckedChange={(checked) => {
+                const currentValue = Array.isArray(field.value) ? field.value : [];
+                if (!checked) {
+                  form.setValue('unlinkedScreensId', [...form.getValues('unlinkedScreensId'), value]);
+                }
+
+                return checked
+                  ? field.onChange([...currentValue, value])
+                  : field.onChange(currentValue.filter((val: string) => val !== value));
+              }}
             />
           </FormControl>
 
           <div className="space-y-1 leading-none">
             <FormLabel>{label}</FormLabel>
-            <FormDescription>{description}</FormDescription>
           </div>
         </FormItem>
       )}

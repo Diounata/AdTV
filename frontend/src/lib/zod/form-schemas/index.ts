@@ -8,6 +8,7 @@ import { number } from "./fields/number";
 import { password } from "./fields/password";
 import { phone } from "./fields/phone";
 import { postalCode } from "./fields/postalCode";
+import { slug } from "./fields/slug";
 import { string } from "./fields/string";
 
 export const formSchema = {
@@ -21,5 +22,6 @@ export const formSchema = {
   number,
   phone,
   postalCode,
+  slug,
   string,
 };
